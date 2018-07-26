@@ -1,0 +1,228 @@
+allprojects {
+    repositories {
+        jcenter()
+        google()
+        maven {
+            url 'https://maven.google.com/'
+        }
+
+    }
+}
+
+ext {
+    //Android
+    androidMinSdkVersion = 17
+    androidTargetSdkVersion = 27
+    androidCompileSdkVersion = 27
+    androidApplicationId = 'com.prosegur.genesis.mobile'
+    androidVersionCode = 1
+    androidVersionName = "0.8.1.18071010"
+    androidBuildTools = '27.0.3'
+
+    //Libraries
+    archLifeCycleVersion = '1.1.0'
+    archRoomVersion = '1.1.1'
+    archworkVersion = "1.0.0-alpha04"
+    constraintLayoutVersion = '1.1.0'
+    crashlytics_version = '2.7.1@aar'
+    daggerVersion = '2.16'
+    gsonVersion = '2.8.5'
+    jobQueue = '2.0.1'
+    multiDexVersion = '1.0.1'
+    okHttpVersion = '3.10.0'
+    playServicesVersion = '11.8.0'
+    retrofitVersion = '2.4.0'
+    simpleXmlVersion = '2.7.1'
+    supportLibraryVersion = '27.1.1'
+    timberVersion = '4.6.0'
+    zxingVersion = '3.5.0'
+    sectionedrecyclerviewVersion = '1.2.0'
+
+    //Testing
+    espressoVersion = '3.0.1'
+    jUnitVersion = '4.12'
+    mockitoVersion = '2.8.47'
+    mockkVersion = '1.8.4'
+    mockwebserverVersion = '3.9.1'
+
+    //Development
+    stethoVersion = '1.5.0'
+
+    //**************************************************************************
+    // ALL DEPENDENCIES - DECLARE HERE AND REUSE WHERE IS NEEDED
+    //**************************************************************************
+
+    allDependencies = [
+
+            //kotlin
+            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}",
+            kotlinCoroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${kotlinCoroutinesVersion}",
+            //support libraries
+            supportV4               : "com.android.support:support-v4:${supportLibraryVersion}",
+            appCompatV7             : "com.android.support:appcompat-v7:${supportLibraryVersion}",
+            design                  : "com.android.support:design:${supportLibraryVersion}",
+            recyclerView            : "com.android.support:recyclerview-v7:${supportLibraryVersion}",
+            cardView                : "com.android.support:cardview-v7:${supportLibraryVersion}",
+            constraintLayout        : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            multiDex                : "com.android.support:multidex:${multiDexVersion}",
+            //dependency injection
+            dagger                  : "com.google.dagger:dagger:${daggerVersion}",
+            daggerAndroid           : "com.google.dagger:dagger-android-support:${daggerVersion}",
+            daggerCompiler          : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            daggerAndroidProcessor  : "com.google.dagger:dagger-android-processor:${daggerVersion}",
+            //Architecture Components
+            room                    : "android.arch.persistence.room:runtime:${archRoomVersion}",
+            roomCompiler            : "android.arch.persistence.room:compiler:${archRoomVersion}",
+            lifeCycle               : "android.arch.lifecycle:extensions:${archLifeCycleVersion}",
+            lifeCycleCompiler       : "android.arch.lifecycle:compiler:${archLifeCycleVersion}",
+            workManager             : "android.arch.work:work-runtime:${archworkVersion}",
+            //logging
+            timber                  : "com.jakewharton.timber:timber:${timberVersion}",
+            //firebase
+            firebaseCore            : "com.google.firebase:firebase-core:${playServicesVersion}",
+            crashlytics             : "com.crashlytics.sdk.android:crashlytics:$crashlytics_version",
+            //periodic tasks
+            jobQueue                : "com.birbit:android-priority-jobqueue:${jobQueue}",
+            //network
+            retrofit2               : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofit2GsonConverter  : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            okHttp3                 : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            //parsing
+            gson                    : "com.google.code.gson:gson:${gsonVersion}",
+            simpleXml               : "org.simpleframework:simple-xml:${simpleXmlVersion}",
+            //barcode reader
+            zxing                   : "com.journeyapps:zxing-android-embedded:${zxingVersion}",
+            honeywell               : "libs/com.honeywell.aidc.honeywell.jar",
+            emdk                    : "libs/com.symbol.emdk.jar",
+            sectionedrecyclerview   : "io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:${sectionedrecyclerviewVersion}",
+
+    ]
+
+    allTestDependencies = [
+            junit          : "junit:junit:${jUnitVersion}",
+            mockito        : "org.mockito:mockito-core:${mockitoVersion}",
+            mockk          : "io.mockk:mockk:${mockkVersion}",
+            coroutinesCore : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}",
+            archCoreTesting: "android.arch.core:core-testing:${archLifeCycleVersion}",
+            mockwebserver  : "com.squareup.okhttp3:mockwebserver:${mockwebserverVersion}",
+            room           : "android.arch.persistence.room:testing:${archRoomVersion}",
+    ]
+
+    allAndroidTestDependencies = [
+            espresso: "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+    ]
+
+    //**************************************************************************
+    // APP DEPENDENCIES
+    //**************************************************************************
+
+    appDependencies = [
+            allDependencies.kotlin,
+            allDependencies.kotlinCoroutines,
+            //support libraries
+            allDependencies.supportV4,
+            allDependencies.appCompatV7,
+            allDependencies.design,
+            allDependencies.recyclerView,
+            allDependencies.cardView,
+            allDependencies.constraintLayout,
+            //dependency injection
+            allDependencies.dagger,
+            allDependencies.daggerAndroid,
+            //AAC
+            allDependencies.room,
+            allDependencies.lifeCycle,
+            //LOG
+            allDependencies.timber,
+            //network
+            allDependencies.okHttp3,
+            allDependencies.gson,
+    ]
+
+    appKapt = [
+            allDependencies.daggerCompiler,
+            allDependencies.daggerAndroidProcessor,
+            allDependencies.roomCompiler,
+            allDependencies.lifeCycleCompiler
+    ]
+
+    appTestDependencies = [
+            allTestDependencies.junit,
+            allTestDependencies.mockito,
+            allTestDependencies.mockk,
+            allTestDependencies.coroutinesCore,
+            allTestDependencies.archCoreTesting
+    ]
+
+    appAndroidTestDependencies = [
+            allAndroidTestDependencies.espresso
+    ]
+
+    //**************************************************************************
+    // DOMAIN DEPENDENCIES
+    //**************************************************************************
+
+    domainDependencies = [
+            allDependencies.kotlin,
+            allDependencies.kotlinCoroutines,
+            allDependencies.dagger,
+            allDependencies.daggerAndroid
+    ]
+
+    domainKapt = [
+            allDependencies.daggerCompiler,
+            allDependencies.daggerAndroidProcessor
+    ]
+
+    domainTestDependencies = [
+            allTestDependencies.junit,
+            allTestDependencies.mockito,
+            allTestDependencies.mockk,
+            allTestDependencies.coroutinesCore
+
+    ]
+
+    //**************************************************************************
+    // DATA DEPENDENCIES
+    //**************************************************************************
+
+    dataDependencies = [
+            allDependencies.kotlin,
+            allDependencies.kotlinCoroutines,
+            allDependencies.dagger,
+            allDependencies.daggerAndroid,
+            allDependencies.lifeCycle,
+            allDependencies.room,
+            allDependencies.retrofit2,
+            allDependencies.okHttp3,
+            allDependencies.okHttpLoggingInterceptor,
+            allDependencies.gson,
+            allDependencies.timber
+    ]
+
+    dataKapt = [
+            allDependencies.daggerCompiler,
+            allDependencies.daggerAndroidProcessor,
+            allDependencies.roomCompiler,
+            allDependencies.lifeCycleCompiler
+    ]
+
+    dataTestDependencies = [
+            allTestDependencies.junit,
+            allTestDependencies.mockito,
+            allTestDependencies.mockk,
+            allTestDependencies.coroutinesCore,
+            allTestDependencies.mockwebserver,
+            allTestDependencies.archCoreTesting,
+            allTestDependencies.room
+    ]
+
+    //**************************************************************************
+    // DEV DEPENDENCIES
+    //**************************************************************************
+
+    developmentDependencies = [
+            "com.facebook.stetho:stetho:${stethoVersion}"
+    ]
+}
