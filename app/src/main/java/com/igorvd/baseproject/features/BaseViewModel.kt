@@ -3,6 +3,8 @@ package com.igorvd.baseproject.features
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
+import com.igorvd.baseproject.domain.exceptions.MyIOException
+import com.igorvd.baseproject.domain.exceptions.MyServerErrorException
 import com.igorvd.baseproject.utils.SingleLiveEvent
 import com.igorvd.baseproject.utils.extensions.throwOrLog
 
@@ -28,15 +30,13 @@ abstract class BaseViewModel() : ViewModel() {
         showProgressEvent.call()
         try {
             work()
-            /*} catch(e: DomainIOException) {
+        } catch (e: MyIOException) {
 
-                val genesisMessage = genesisMessageFactory.buildGenesisMessage(GeneralMessages.IO_ERROR)
-                showMessageEvent.value = genesisMessage
+            //TODO: show network error message
 
-            } catch (e: DomainServerUnreachedException) {
+        } catch (e: MyServerErrorException) {
 
-                val genesisMessage = genesisMessageFactory.buildGenesisMessage(GeneralMessages.SERVER_UNREACHED)
-                showMessageEvent.value = genesisMessage*/
+            //TODO: show server error message
 
         } catch (e: Exception) {
             e.throwOrLog()
