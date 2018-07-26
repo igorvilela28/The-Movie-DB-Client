@@ -20,8 +20,6 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-
-
     @Provides
     @Singleton
     fun providesMovieDbApi(movieDbInterceptor: MovieInterceptor): MovieDbApi {

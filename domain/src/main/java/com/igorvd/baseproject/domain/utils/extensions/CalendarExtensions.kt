@@ -5,6 +5,9 @@ import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import android.icu.util.ULocale.getLanguage
+
+
 
 
 /**
@@ -129,4 +132,18 @@ fun getNowAsDateTimeString(): String = Calendar.getInstance().time.toDateString(
 
 fun currentTimeInSeconds(): String {
     return (System.currentTimeMillis() / 1000).toString()
+}
+
+fun getLanguageCode(): String {
+    val lang = Locale.getDefault().getLanguage()
+
+    return if (lang.equals("IW", ignoreCase = true)) {
+        "HE"
+    } else if (lang.equals("IN", ignoreCase = true)) {
+        "ID"
+    } else if (lang.equals("JI", ignoreCase = true)) {
+        "YI"
+    } else {
+        lang
+    }
 }
