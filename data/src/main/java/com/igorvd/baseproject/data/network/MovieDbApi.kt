@@ -10,7 +10,7 @@ import retrofit2.http.POST
  */
 
 
-interface MyApi {
+interface MovieDbApi {
 
 
 }

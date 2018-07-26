@@ -3,6 +3,7 @@ package com.igorvd.baseproject.data.utils.extensions
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import com.igorvd.baseproject.data.BuildConfig
 import com.igorvd.baseproject.data.utils.IOUtils
 import timber.log.Timber
 import java.io.BufferedReader

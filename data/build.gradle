@@ -22,6 +22,17 @@ android {
         }
     }
 
+    buildTypes {
+        debug {
+            buildConfigField 'String', "ApiKey", THE_MOVIE_DB_API_KEY
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "ApiKey", THE_MOVIE_DB_API_KEY
+        }
+    }
+
     lintOptions {
         abortOnError false
     }
