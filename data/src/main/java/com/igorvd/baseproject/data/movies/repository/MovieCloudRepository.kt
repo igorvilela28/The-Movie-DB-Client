@@ -35,7 +35,9 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
 
     }
 
-
+    /**
+     * Transforms from [MovieSchema] to [Movie]
+     */
     fun MovieSchema.toMovie(configuration: Configuration, genresSchema: List<GenreSchema>): Movie {
 
         val posterUrl: String = this.getPosterUrl(configuration)
@@ -85,6 +87,9 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
         }
     }
 
+    /**
+     * Gets the poster URL based on the path
+     */
     private fun MovieSchema.getPosterUrl(configuration: Configuration): String {
 
         val path = posterPath
@@ -93,6 +98,9 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
         }
     }
 
+    /**
+     * Gets the backdrop URL based on the path
+     */
     private fun MovieSchema.getBackdropUrl(configuration: Configuration): String {
 
         val path = backdropPath
@@ -101,6 +109,9 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
         }
     }
 
+    /**
+     * Gets the genres titles based on their ids
+     */
     private fun MovieSchema.getGenres(genresSchema: List<GenreSchema>): List<String> {
         return genreIds.map { id -> genresSchema.firstOrNull { it.id == id }?.name }.filterNotNull()
     }

@@ -15,14 +15,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.igorvd.baseproject.R
 import com.igorvd.baseproject.domain.movies.entities.Movie
 import com.igorvd.baseproject.utils.extensions.content
+import com.igorvd.baseproject.utils.extensions.loadImageFromUrl
 
 import kotlinx.android.synthetic.main.row_movie.view.*
 
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MyViewHolder>() {
 
-    private val set = ConstraintSet()
-    private val requestOptions = RequestOptions().placeholder(R.drawable.placeholder)
 
     var movies: List<Movie> = ArrayList()
         set(value) {
@@ -45,23 +44,10 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MyViewHolder>() {
 
         val movie = movies[position]
 
-
-        holder.itemView.tvTitle.content = movie.title
-
-
-        Glide.with(holder.itemView.context)
-                .setDefaultRequestOptions(requestOptions)
-                .load(movie.posterUrl)
-                .into(holder.itemView.ivPoster)
-
-       /* with(set) {
-            @SuppressLint("DefaultLocale")
-            val posterRatio = String.format("%d:%d", width, height)
-            clone(holder.itemView.parentConstraint)
-            setDimensionRatio(holder.itemView.ivPoster.id, posterRatio)
-            applyTo(holder.itemView.parentConstraint)
+        with(holder.itemView) {
+            tvTitle.content = movie.title
+            ivPoster.loadImageFromUrl(context, movie.posterUrl)
         }
-*/
 
     }
 
