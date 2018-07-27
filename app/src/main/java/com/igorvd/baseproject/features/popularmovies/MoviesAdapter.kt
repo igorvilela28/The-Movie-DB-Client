@@ -1,14 +1,11 @@
 package com.igorvd.baseproject.features.popularmovies
 
-import android.annotation.SuppressLint
-import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
+import android.support.v7.recyclerview.extensions.ListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 
 import com.igorvd.baseproject.R
 import com.igorvd.baseproject.domain.movies.entities.Movie
@@ -20,10 +17,10 @@ import kotlinx.android.synthetic.main.row_movie.view.*
 
 
 class MoviesAdapter(
-        val movies: ArrayList<Movie> = arrayListOf(),
         val onItemClicked: (Movie) -> Unit,
-        val onRetryClick: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        val onRetryClick: () -> Unit) : ListAdapter<Movie, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
+    //ListAdapter<Movie, RecyclerView.ViewHolder>(DIFF_CALLBACK)
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     inner class MyFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -69,8 +66,14 @@ class MoviesAdapter(
         }
     }
 
+    private var movies : List<Movie> = emptyList()
+    override fun submitList(list: List<Movie>) {
+        movies = list
+        super.submitList(list)
+    }
+
     override fun getItemCount(): Int {
-        return movies.size + 1
+        return super.getItemCount() + 1
     }
 
     override fun getItemId(position: Int): Long {
@@ -160,6 +163,16 @@ class MoviesAdapter(
         this.hasFooter = true
         this.currentFootType = type
         notifyDataSetChanged()
+    }
+
+    private object DIFF_CALLBACK : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem == newItem
+        }
     }
 
 }

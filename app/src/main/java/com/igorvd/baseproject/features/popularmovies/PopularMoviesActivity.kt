@@ -41,12 +41,11 @@ class PopularMoviesActivity : AppCompatActivity() {
         )
     }
 
-
     private val spanCount by lazy {
         val orientation = getResources().getConfiguration().orientation
         when (orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> 2
-            Configuration.ORIENTATION_LANDSCAPE-> 3
+            Configuration.ORIENTATION_PORTRAIT  -> 2
+            Configuration.ORIENTATION_LANDSCAPE -> 3
             else -> 2
         }
     }
@@ -125,8 +124,7 @@ class PopularMoviesActivity : AppCompatActivity() {
                 adapter.removeFooter()
             }
 
-            adapter.movies.addAll(it)
-            adapter.notifyDataSetChanged()
+            adapter.submitList(it)
 
             Timber.d("url: ${it.first().posterUrl}")
 

@@ -2,11 +2,13 @@ package com.igorvd.baseproject.features.popularmovies
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import com.igorvd.baseproject.domain.movies.GetMoviesInteractor
 import com.igorvd.baseproject.domain.movies.MovieSortBy
 import com.igorvd.baseproject.domain.movies.entities.Movie
 import com.igorvd.baseproject.domain.movies.repository.MovieRepository
 import com.igorvd.baseproject.domain.utils.extensions.withIOContext
 import com.igorvd.baseproject.features.BaseViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -15,7 +17,7 @@ import javax.inject.Inject
  */
 class PopularMoviesViewModel
 @Inject
-constructor(private val movieRepository: MovieRepository) : BaseViewModel() {
+constructor(private val getMoviesInteractor: GetMoviesInteractor) : BaseViewModel() {
 
     var currentPage = 0
     val DEFAULT_SORT_BY = MovieSortBy.POPULARITY
@@ -26,17 +28,23 @@ constructor(private val movieRepository: MovieRepository) : BaseViewModel() {
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> = _movies
 
+    /**
+     * Use to get a list of movies, based on the [currentPage] and the [sortBy] param
+     */
     suspend fun getMovies(sortBy: MovieSortBy = DEFAULT_SORT_BY) {
+
+        Timber.d("currentPage: $currentPage")
 
         doWorkWithProgress {
 
             val newPage = currentPage + 1
             val movies = withIOContext {
-
-                movieRepository.getMovies(newPage, sortBy)
+                getMoviesInteractor.execute(GetMoviesInteractor.Params(newPage, sortBy))
             }
 
-            this._movies.value = movies
+            val allMovies = this.movies.value?.let { it + movies } ?: movies
+
+            this._movies.value = allMovies
             currentPage = newPage
         }
     }
