@@ -7,6 +7,7 @@ import com.igorvd.baseproject.domain.exceptions.MyIOException
 import com.igorvd.baseproject.domain.exceptions.MyServerErrorException
 import com.igorvd.baseproject.utils.SingleLiveEvent
 import com.igorvd.baseproject.utils.extensions.throwOrLog
+import timber.log.Timber
 
 /**
  * @author Igor Vilela
@@ -34,9 +35,13 @@ abstract class BaseViewModel() : ViewModel() {
 
             //TODO: show network error message
 
+            Timber.d("IO Exception")
+
         } catch (e: MyServerErrorException) {
 
             //TODO: show server error message
+
+            Timber.d("Server error")
 
         } catch (e: Exception) {
             e.throwOrLog()

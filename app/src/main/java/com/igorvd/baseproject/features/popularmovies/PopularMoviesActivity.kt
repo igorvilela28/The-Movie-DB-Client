@@ -3,6 +3,7 @@ package com.igorvd.baseproject.features.popularmovies
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
@@ -28,6 +29,9 @@ class PopularMoviesActivity : AppCompatActivity() {
                 .get(PopularMoviesViewModel::class.java)
     }
 
+    private val LIST_STATE_KEY = "recycler_state"
+    private var listState: Parcelable? = null
+
     private val adapter by lazy {
         MoviesAdapter(
             onItemClicked = {},
@@ -52,6 +56,10 @@ class PopularMoviesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        savedInstanceState?.let {
+            restoreInstance(it)
+        }
+
         setupRv()
         setupObservers()
 
@@ -59,6 +67,24 @@ class PopularMoviesActivity : AppCompatActivity() {
             loadMovies()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        listState?.let { staggeredGridLayoutManager.onRestoreInstanceState(it) }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        listState = staggeredGridLayoutManager.onSaveInstanceState()
+        outState?.putParcelable(LIST_STATE_KEY, listState)
+    }
+
+    private fun restoreInstance(savedInstanceState: Bundle) {
+
+        listState = savedInstanceState.getParcelable(LIST_STATE_KEY)
     }
 
     private fun setupRv() {
