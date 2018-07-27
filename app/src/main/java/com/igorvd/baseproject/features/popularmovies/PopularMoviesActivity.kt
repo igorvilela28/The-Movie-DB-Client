@@ -1,6 +1,8 @@
 package com.igorvd.baseproject.features.popularmovies
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
+import android.content.res.Configuration
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
@@ -39,8 +41,18 @@ class PopularMoviesActivity : AppCompatActivity() {
         )
     }
 
+
+    private val spanCount by lazy {
+        val orientation = getResources().getConfiguration().orientation
+        when (orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> 2
+            Configuration.ORIENTATION_LANDSCAPE-> 3
+            else -> 2
+        }
+    }
+
     private val staggeredGridLayoutManager by lazy {
-        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
     }
 
     private val scrollListener: EndlessRecyclerViewScrollListener by lazy {

@@ -15,6 +15,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.igorvd.baseproject.R
+import com.squareup.picasso.Callback
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 
@@ -168,9 +170,16 @@ fun ImageView.loadImageFromUrl(context: Context, url: String) {
     Picasso.with(context)
             .load(url)
             .placeholder(R.drawable.placeholder)
-            .error(android.R.drawable.stat_notify_error)
-            .into(this)
-
+        .networkPolicy(NetworkPolicy.OFFLINE)
+            .into(this, object : Callback {
+                override fun onSuccess() {}
+                override fun onError() {
+                    Picasso.with(context)
+                        .load(url)
+                        .placeholder(R.drawable.placeholder)
+                        .into(this@loadImageFromUrl)
+                }
+            })
 }
 
 private fun Drawable.convertDrawableToGrayScale(): Drawable {
