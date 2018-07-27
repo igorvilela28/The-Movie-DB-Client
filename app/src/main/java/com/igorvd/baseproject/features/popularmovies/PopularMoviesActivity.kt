@@ -21,9 +21,6 @@ import kotlinx.android.synthetic.main.app_bar_layout.*
 import kotlinx.android.synthetic.main.default_error.*
 import timber.log.Timber
 import javax.inject.Inject
-import android.R.array
-import android.widget.ArrayAdapter
-import android.support.v4.view.MenuItemCompat.getActionView
 import android.view.Menu
 import android.widget.AdapterView
 import android.widget.Spinner
@@ -73,6 +70,10 @@ class PopularMoviesActivity : AppCompatActivity() {
         }
     }
 
+    //**************************************************************************
+    // region: LIFE CYCLE
+    //**************************************************************************
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -93,11 +94,6 @@ class PopularMoviesActivity : AppCompatActivity() {
 
     }
 
-    private fun setupToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setTitle(R.string.popular_movies_title)
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -113,48 +109,27 @@ class PopularMoviesActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.popular_movies_menu, menu)
-
-        val item = menu.findItem(R.id.spinner)
-        val spinner = item.getActionView() as Spinner
-
-        val adapter = SpinnerDropdownAdapter<MovieSortBy>(
-            mContext = this,
-            items = MovieSortBy.values().toMutableList(),
-            getText = {searchBy ->
-                when (searchBy) {
-                    MovieSortBy.POPULARITY -> "Popularidade"
-                    MovieSortBy.VOTE_AVERAGE -> "Melhor avaliados"
-                }
-            }
-        )
-
-        spinner.adapter = adapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
-
-                val sortBy = spinner.getSelectedItemOrNull<MovieSortBy>()
-
-                sortBy?.let {
-                    if (viewModel.currentSortBy != it) {
-                        viewModel.clearCurrentMovies()
-                        loadMovies(it)
-                    }
-                }
-
-            }
-
-        }
+        val spinner = menu.findItem(R.id.spinner).actionView as Spinner
+        setupFilterSpinner(spinner)
 
         return true
     }
 
+    //endregion
+
+
+    //**************************************************************************
+    // region: INNER METHODS
+    //**************************************************************************
+
     private fun restoreInstance(savedInstanceState: Bundle) {
 
         listState = savedInstanceState.getParcelable(LIST_STATE_KEY)
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setTitle(R.string.popular_movies_title)
     }
 
     private fun setupRv() {
@@ -169,10 +144,6 @@ class PopularMoviesActivity : AppCompatActivity() {
         }
 
 
-    }
-
-    private fun loadMovies(movieSortBy: MovieSortBy = viewModel.currentSortBy) {
-        launchUI { viewModel.getMovies(sortBy = movieSortBy) }
     }
 
     private fun setupObservers() {
@@ -192,7 +163,42 @@ class PopularMoviesActivity : AppCompatActivity() {
         viewModel.observe(this, ::showProgress, ::hideProgress)
     }
 
-    fun showProgress() {
+    private fun loadMovies(movieSortBy: MovieSortBy = viewModel.currentSortBy) {
+        launchUI { viewModel.getMovies(sortBy = movieSortBy) }
+    }
+
+    private fun setupFilterSpinner(spinner: Spinner) {
+
+        //TODO: Res strings
+
+        val adapter = SpinnerDropdownAdapter(mContext = this,
+            items = MovieSortBy.values().toMutableList(),
+            getText = { searchBy ->
+                when (searchBy) {
+                    MovieSortBy.POPULARITY -> "Popularidade"
+                    MovieSortBy.VOTE_AVERAGE -> "Melhor avaliados"
+                }
+            })
+
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                val sortBy = spinner.getSelectedItemOrNull<MovieSortBy>()
+
+                sortBy?.let {
+                    if (viewModel.currentSortBy != it) {
+                        viewModel.clearCurrentMovies()
+                        loadMovies(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showProgress() {
 
         btnTryAgain.visibility = View.GONE
         tvError.visibility = View.GONE
@@ -205,13 +211,13 @@ class PopularMoviesActivity : AppCompatActivity() {
         }
     }
 
-    fun hideProgress() {
+    private fun hideProgress() {
 
         progressBar.visibility = View.GONE
 
     }
 
-    fun showError() {
+    private fun showError() {
 
         val size = viewModel.movies.value?.size ?: 0
         if (size > 0) {
@@ -226,3 +232,5 @@ class PopularMoviesActivity : AppCompatActivity() {
 
     }
 }
+
+//endregion
