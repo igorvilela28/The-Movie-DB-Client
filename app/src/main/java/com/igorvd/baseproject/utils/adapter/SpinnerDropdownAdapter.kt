@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.igorvd.baseproject.R
 
 class SpinnerDropdownAdapter<T>(
-        private val mContext: Context,
-        resource: Int = android.R.layout.simple_spinner_dropdown_item,
-        val items: MutableList<T> = mutableListOf(),
-        private val getText: (Int) -> String) : ArrayAdapter<T>(mContext, resource) {
+    private val mContext: Context,
+    resource: Int = R.layout.spinner_item,
+    val items: MutableList<T> = mutableListOf(),
+    private val getText: (T) -> String) : ArrayAdapter<T>(mContext, resource) {
 
     override fun getItem(position: Int): T {
         return items[position]
@@ -47,12 +48,12 @@ class SpinnerDropdownAdapter<T>(
 
         val inflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val rootView = inflater.inflate(android.R.layout.simple_spinner_dropdown_item,
+        val rootView = inflater.inflate(R.layout.spinner_item,
                 parent, false)
 
-        val tv = rootView.findViewById<TextView>(android.R.id.text1)
+        val tv = rootView.findViewById<TextView>(R.id.text)
 
-        tv.text = getText(position)
+        tv.text = getText(items[position])
 
         return rootView
 

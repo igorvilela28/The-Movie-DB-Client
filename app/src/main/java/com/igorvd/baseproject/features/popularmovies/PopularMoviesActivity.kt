@@ -17,9 +17,18 @@ import com.igorvd.baseproject.utils.extensions.observeNotNull
 import com.igorvd.baseproject.utils.extensions.setup
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_layout.*
 import kotlinx.android.synthetic.main.default_error.*
 import timber.log.Timber
 import javax.inject.Inject
+import android.R.array
+import android.widget.ArrayAdapter
+import android.support.v4.view.MenuItemCompat.getActionView
+import android.view.Menu
+import android.widget.Spinner
+import com.igorvd.baseproject.domain.movies.MovieSortBy
+import com.igorvd.baseproject.utils.adapter.SpinnerDropdownAdapter
+
 
 class PopularMoviesActivity : AppCompatActivity() {
 
@@ -71,6 +80,8 @@ class PopularMoviesActivity : AppCompatActivity() {
             restoreInstance(it)
         }
 
+        setupToolbar()
+
         setupRv()
         setupObservers()
 
@@ -78,6 +89,11 @@ class PopularMoviesActivity : AppCompatActivity() {
             loadMovies()
         }
 
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setTitle(R.string.popular_movies_title)
     }
 
     override fun onResume() {
@@ -91,6 +107,28 @@ class PopularMoviesActivity : AppCompatActivity() {
 
         listState = staggeredGridLayoutManager.onSaveInstanceState()
         outState?.putParcelable(LIST_STATE_KEY, listState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.popular_movies_menu, menu)
+
+        val item = menu.findItem(R.id.spinner)
+        val spinner = item.getActionView() as Spinner
+
+        val adapter = SpinnerDropdownAdapter<MovieSortBy>(
+            mContext = this,
+            items = MovieSortBy.values().toMutableList(),
+            getText = {searchBy ->
+                when (searchBy) {
+                    MovieSortBy.POPULARITY -> "Popularidade"
+                    MovieSortBy.VOTE_AVERAGE -> "Melhor avaliados"
+                }
+            }
+        )
+
+        spinner.adapter = adapter
+
+        return true
     }
 
     private fun restoreInstance(savedInstanceState: Bundle) {

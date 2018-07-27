@@ -1,5 +1,8 @@
 <resources>
+
     <string name="app_name">BaseProject</string>
+
+    <string name="popular_movies_title">Filmes populares</string>
 
     <string name="try_again">Tentar novamente</string>
 
