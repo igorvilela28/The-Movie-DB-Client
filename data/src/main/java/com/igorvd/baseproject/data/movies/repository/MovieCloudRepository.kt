@@ -3,6 +3,8 @@ package com.igorvd.baseproject.data.movies.repository
 import com.igorvd.baseproject.data.movies.entities.*
 import com.igorvd.baseproject.data.network.MovieDbApi
 import com.igorvd.baseproject.data.network.requests.SynchronousRequestManagerImpl
+import com.igorvd.baseproject.domain.exceptions.MyIOException
+import com.igorvd.baseproject.domain.exceptions.MyServerErrorException
 import com.igorvd.baseproject.domain.movies.MovieSortBy
 import com.igorvd.baseproject.domain.movies.entities.Movie
 import com.igorvd.baseproject.domain.movies.repository.MovieRepository
@@ -32,8 +34,22 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
         val configurationDeferred = asyncIO { getConfiguration() }
         val genresDeferred = asyncIO { getGenres() }
 
-        return moviesSchemaDeferred.await().map { it.toMovie(configurationDeferred.await(), genresDeferred.await()) }
+        try {
 
+            return moviesSchemaDeferred.await().map { it.toMovie(configurationDeferred.await(), genresDeferred.await()) }
+
+        } catch (e: MyIOException) {
+            moviesSchemaDeferred.cancel(e)
+            configurationDeferred.cancel(e)
+            genresDeferred.cancel(e)
+            throw e
+
+        } catch (e: MyServerErrorException) {
+            moviesSchemaDeferred.cancel(e)
+            configurationDeferred.cancel(e)
+            genresDeferred.cancel(e)
+            throw e
+        }
     }
 
     /**
@@ -100,7 +116,7 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
      */
     private fun MovieSchema.getPosterUrl(configuration: Configuration): String {
 
-        val path = posterPath.replace("\\", "")
+        val path = posterPath
         return with(configuration.images) {
             "$secureBaseUrl${posterSizes.first()}$path"
         }
@@ -111,7 +127,7 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
      */
     private fun MovieSchema.getBackdropUrl(configuration: Configuration): String {
 
-        val path = backdropPath.replace("\\", "")
+        val path = backdropPath
         return with(configuration.images) {
             "$secureBaseUrl${backdropSizes.first()}$path"
         }
