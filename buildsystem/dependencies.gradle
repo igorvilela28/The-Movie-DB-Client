@@ -31,6 +31,7 @@ ext {
     jobQueue = '2.0.1'
     multiDexVersion = '1.0.1'
     okHttpVersion = '3.10.0'
+    picassoVersion = '2.5.2'
     playServicesVersion = '11.8.0'
     retrofitVersion = '2.4.0'
     simpleXmlVersion = '2.7.1'
@@ -93,6 +94,7 @@ ext {
             gson                    : "com.google.code.gson:gson:${gsonVersion}",
             simpleXml               : "org.simpleframework:simple-xml:${simpleXmlVersion}",
             //image loader
+            picasso                 : "com.squareup.picasso:picasso:${picassoVersion}",
             glide                   : "com.github.bumptech.glide:glide:${glideVersion}",
             glideCompiler           : "com.github.bumptech.glide:compiler:${glideVersion}",
             //barcode reader
@@ -140,15 +142,14 @@ ext {
             allDependencies.okHttp3,
             allDependencies.gson,
             //image
-            allDependencies.glide
+            allDependencies.picasso
     ]
 
     appKapt = [
             allDependencies.daggerCompiler,
             allDependencies.daggerAndroidProcessor,
             allDependencies.roomCompiler,
-            allDependencies.lifeCycleCompiler,
-            allDependencies.glideCompiler
+            allDependencies.lifeCycleCompiler
     ]
 
     appTestDependencies = [

@@ -6,6 +6,9 @@ import com.igorvd.baseproject.data.network.requests.SynchronousRequestManagerImp
 import com.igorvd.baseproject.domain.movies.MovieSortBy
 import com.igorvd.baseproject.domain.movies.entities.Movie
 import com.igorvd.baseproject.domain.movies.repository.MovieRepository
+import com.igorvd.baseproject.domain.utils.extensions.asyncIO
+import com.igorvd.baseproject.domain.utils.extensions.withIOContext
+import kotlinx.coroutines.experimental.async
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,13 +28,11 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
 
     override suspend fun getMovies(page: Int, sortBy: MovieSortBy): List<Movie> {
 
-        val call = movieDbApi.getPopularMovies(page, sortBy.value)
+        val moviesSchemaDeferred = asyncIO { getMoviesSchema(page, sortBy) }
+        val configurationDeferred = asyncIO { getConfiguration() }
+        val genresDeferred = asyncIO { getGenres() }
 
-        val moviesSchema = requestMovies.getResult(call).movies
-        val configuration = getConfiguration()
-        val genres = getGenres()
-
-        return moviesSchema.map { it.toMovie(configuration, genres) }
+        return moviesSchemaDeferred.await().map { it.toMovie(configurationDeferred.await(), genresDeferred.await()) }
 
     }
 
@@ -63,6 +64,13 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
 
     }
 
+    private suspend fun getMoviesSchema(page: Int, sortBy: MovieSortBy): List<MovieSchema> {
+        val call = movieDbApi.getPopularMovies(page, sortBy.value)
+
+        val moviesSchema = requestMovies.getResult(call).movies
+        return moviesSchema
+    }
+
     /**
      * Get the cached configuration, if not present, fetches for it
      */
@@ -92,9 +100,9 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
      */
     private fun MovieSchema.getPosterUrl(configuration: Configuration): String {
 
-        val path = posterPath
+        val path = posterPath.replace("\\", "")
         return with(configuration.images) {
-            "$secureBaseUrl/${posterSizes.last()}/$path"
+            "$secureBaseUrl${posterSizes.first()}$path"
         }
     }
 
@@ -103,9 +111,9 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
      */
     private fun MovieSchema.getBackdropUrl(configuration: Configuration): String {
 
-        val path = backdropPath
+        val path = backdropPath.replace("\\", "")
         return with(configuration.images) {
-            "$secureBaseUrl/${backdropSizes.last()}/$path"
+            "$secureBaseUrl${backdropSizes.first()}$path"
         }
     }
 

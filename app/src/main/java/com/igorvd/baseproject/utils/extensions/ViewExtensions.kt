@@ -2,6 +2,7 @@ package com.igorvd.baseproject.utils.extensions
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Rect
@@ -13,6 +14,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import com.igorvd.baseproject.R
+import com.squareup.picasso.Picasso
 
 
 /**
@@ -157,6 +160,16 @@ fun ImageView.setImageButtonEnabled(enabled: Boolean) {
     val originalIcon = getDrawable()
     val icon = if (enabled) originalIcon else originalIcon.convertDrawableToGrayScale()
     setImageDrawable(icon)
+
+}
+
+fun ImageView.loadImageFromUrl(context: Context, url: String) {
+
+    Picasso.with(context)
+            .load(url)
+            .placeholder(R.drawable.placeholder)
+            .error(android.R.drawable.stat_notify_error)
+            .into(this)
 
 }
 

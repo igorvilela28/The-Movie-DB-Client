@@ -27,6 +27,12 @@ fun launchUI(block: suspend CoroutineScope.() -> Unit): Job {
     return launch(UI, block = block)
 }
 
+suspend fun <T> asyncIO(block: suspend CoroutineScope.() -> T): Deferred<T> {
+
+    return async(ioDispatcher, block = block)
+
+}
+
 suspend fun <T> withIOContext (block: suspend () -> T): T {
 
     return withContext(ioDispatcher, block = block)
