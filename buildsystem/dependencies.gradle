@@ -14,9 +14,9 @@ ext {
     androidMinSdkVersion = 17
     androidTargetSdkVersion = 27
     androidCompileSdkVersion = 27
-    androidApplicationId = 'com.prosegur.genesis.mobile'
+    androidApplicationId = 'com.igorvd.baseproject'
     androidVersionCode = 1
-    androidVersionName = "0.8.1.18071010"
+    androidVersionName = "1.0"
     androidBuildTools = '27.0.3'
 
     //Libraries
@@ -26,6 +26,7 @@ ext {
     constraintLayoutVersion = '1.1.0'
     crashlytics_version = '2.7.1@aar'
     daggerVersion = '2.16'
+    glideVersion = '4.7.1'
     gsonVersion = '2.8.5'
     jobQueue = '2.0.1'
     multiDexVersion = '1.0.1'
@@ -91,11 +92,11 @@ ext {
             //parsing
             gson                    : "com.google.code.gson:gson:${gsonVersion}",
             simpleXml               : "org.simpleframework:simple-xml:${simpleXmlVersion}",
+            //image loader
+            glide                   : "com.github.bumptech.glide:glide:${glideVersion}",
+            glideCompiler           : "com.github.bumptech.glide:compiler:${glideVersion}",
             //barcode reader
             zxing                   : "com.journeyapps:zxing-android-embedded:${zxingVersion}",
-            honeywell               : "libs/com.honeywell.aidc.honeywell.jar",
-            emdk                    : "libs/com.symbol.emdk.jar",
-            sectionedrecyclerview   : "io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:${sectionedrecyclerviewVersion}",
 
     ]
 
@@ -138,13 +139,16 @@ ext {
             //network
             allDependencies.okHttp3,
             allDependencies.gson,
+            //image
+            allDependencies.glide
     ]
 
     appKapt = [
             allDependencies.daggerCompiler,
             allDependencies.daggerAndroidProcessor,
             allDependencies.roomCompiler,
-            allDependencies.lifeCycleCompiler
+            allDependencies.lifeCycleCompiler,
+            allDependencies.glideCompiler
     ]
 
     appTestDependencies = [

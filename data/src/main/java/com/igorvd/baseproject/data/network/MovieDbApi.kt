@@ -20,7 +20,7 @@ interface MovieDbApi {
 
     //popularity.desc , vote_average.desc
 
-    @GET("movie/popular")
+    @GET("discover/movie")
     fun getPopularMovies(
             @Query("page") page: Int,
             @Query("sort_by") sortBy: String = "popularity.desc"
