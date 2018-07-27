@@ -19,8 +19,9 @@ class PopularMoviesViewModel
 @Inject
 constructor(private val getMoviesInteractor: GetMoviesInteractor) : BaseViewModel() {
 
+    private val DEFAULT_SORT_BY = MovieSortBy.POPULARITY
+    var currentSortBy = DEFAULT_SORT_BY
     var currentPage = 0
-    val DEFAULT_SORT_BY = MovieSortBy.POPULARITY
 
     /**
      * backing field for [movies]
@@ -28,10 +29,15 @@ constructor(private val getMoviesInteractor: GetMoviesInteractor) : BaseViewMode
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> = _movies
 
+    fun clearCurrentMovies() {
+        currentPage = 0
+        _movies.value = emptyList()
+    }
+
     /**
      * Use to get a list of movies, based on the [currentPage] and the [sortBy] param
      */
-    suspend fun getMovies(sortBy: MovieSortBy = DEFAULT_SORT_BY) {
+    suspend fun getMovies(sortBy: MovieSortBy) {
 
         Timber.d("currentPage: $currentPage")
 
@@ -46,6 +52,7 @@ constructor(private val getMoviesInteractor: GetMoviesInteractor) : BaseViewMode
 
             this._movies.value = allMovies
             currentPage = newPage
+            currentSortBy = sortBy
         }
     }
 }

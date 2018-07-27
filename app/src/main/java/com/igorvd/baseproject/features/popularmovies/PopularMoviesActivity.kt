@@ -25,9 +25,11 @@ import android.R.array
 import android.widget.ArrayAdapter
 import android.support.v4.view.MenuItemCompat.getActionView
 import android.view.Menu
+import android.widget.AdapterView
 import android.widget.Spinner
 import com.igorvd.baseproject.domain.movies.MovieSortBy
 import com.igorvd.baseproject.utils.adapter.SpinnerDropdownAdapter
+import com.igorvd.baseproject.utils.extensions.getSelectedItemOrNull
 
 
 class PopularMoviesActivity : AppCompatActivity() {
@@ -46,7 +48,7 @@ class PopularMoviesActivity : AppCompatActivity() {
     private val adapter by lazy {
         MoviesAdapter(
             onItemClicked = {},
-            onRetryClick = ::loadMovies
+            onRetryClick = { loadMovies() }
         )
     }
 
@@ -127,6 +129,25 @@ class PopularMoviesActivity : AppCompatActivity() {
         )
 
         spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long
+            ) {
+
+                val sortBy = spinner.getSelectedItemOrNull<MovieSortBy>()
+
+                sortBy?.let {
+                    if (viewModel.currentSortBy != it) {
+                        viewModel.clearCurrentMovies()
+                        loadMovies(it)
+                    }
+                }
+
+            }
+
+        }
 
         return true
     }
@@ -150,8 +171,8 @@ class PopularMoviesActivity : AppCompatActivity() {
 
     }
 
-    private fun loadMovies() {
-        launchUI { viewModel.getMovies() }
+    private fun loadMovies(movieSortBy: MovieSortBy = viewModel.currentSortBy) {
+        launchUI { viewModel.getMovies(sortBy = movieSortBy) }
     }
 
     private fun setupObservers() {
@@ -164,7 +185,7 @@ class PopularMoviesActivity : AppCompatActivity() {
 
             adapter.submitList(it)
 
-            Timber.d("url: ${it.first().posterUrl}")
+            Timber.d("url: ${it.firstOrNull()?.posterUrl}")
 
         })
 
