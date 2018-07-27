@@ -27,6 +27,7 @@ import android.widget.Spinner
 import com.igorvd.baseproject.domain.movies.MovieSortBy
 import com.igorvd.baseproject.utils.adapter.SpinnerDropdownAdapter
 import com.igorvd.baseproject.utils.extensions.getSelectedItemOrNull
+import com.igorvd.baseproject.utils.extensions.setSelectionListenerWithoutNotify
 
 
 class PopularMoviesActivity : AppCompatActivity() {
@@ -181,7 +182,7 @@ class PopularMoviesActivity : AppCompatActivity() {
             })
 
         spinner.adapter = adapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        val listener = object : AdapterView.OnItemSelectedListener {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -196,6 +197,8 @@ class PopularMoviesActivity : AppCompatActivity() {
                 }
             }
         }
+
+        spinner.setSelectionListenerWithoutNotify(listener)
     }
 
     private fun showProgress() {

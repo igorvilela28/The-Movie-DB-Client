@@ -4,6 +4,9 @@ package com.igorvd.baseproject.utils.extensions
 
 import android.widget.Spinner
 import com.igorvd.baseproject.utils.adapter.SpinnerHintDropdownAdapter
+import android.widget.AdapterView.OnItemSelectedListener
+
+
 
 /**
  *
@@ -54,3 +57,13 @@ fun <T> Spinner.getSelectedItemOrShowError(message: String): T? {
 fun Spinner.showErrorMessage(message: String) {
     context.showToast(message)
 }
+
+/**
+ * Normalmente, ao adicionar o [OnItemSelectedListener], o spinner o chama imediatamente. Esse
+ * metodo configura o listener, evitando que o mesmo seja chamado imediatamente apos a seleção
+ */
+fun Spinner.setSelectionListenerWithoutNotify(listener: OnItemSelectedListener) {
+    this.onItemSelectedListener = null
+    this.post { this.onItemSelectedListener = listener }
+}
+
