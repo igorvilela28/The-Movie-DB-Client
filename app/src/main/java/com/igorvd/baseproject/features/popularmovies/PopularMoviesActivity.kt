@@ -142,6 +142,8 @@ class PopularMoviesActivity : AppCompatActivity() {
                     layoutManager = staggeredGridLayoutManager,
                     adapter = this@PopularMoviesActivity.adapter)
         }
+
+        btnTryAgain.setOnClickListener { loadMovies() }
     }
 
     private fun setupObservers() {

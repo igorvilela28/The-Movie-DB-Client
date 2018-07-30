@@ -14,10 +14,8 @@ import com.igorvd.baseproject.utils.ViewModelFactory
 import com.igorvd.baseproject.utils.extensions.*
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie_detail.*
-import kotlinx.android.synthetic.main.activity_popular_movies.*
 import kotlinx.android.synthetic.main.default_error.*
 import kotlinx.android.synthetic.main.movie_trailers.*
-import java.util.*
 import javax.inject.Inject
 
 class MovieDetailActivity : AppCompatActivity() {
@@ -58,7 +56,7 @@ class MovieDetailActivity : AppCompatActivity() {
         setupObservers()
 
         if (viewModel.movieTrailers.value == null) {
-            getMovieVideos()
+            loadTrailers()
         }
 
     }
@@ -97,10 +95,10 @@ class MovieDetailActivity : AppCompatActivity() {
         btnTryAgain.isVisible = true
     }
 
-    private fun getMovieVideos() {
+    private fun loadTrailers() {
 
         launchUI {
-            viewModel.getMovieTrailers(movie.id)
+            viewModel.loadMovieTrailers(movie.id)
         }
 
     }
@@ -128,5 +126,7 @@ class MovieDetailActivity : AppCompatActivity() {
             adapter = adapter,
             isNestedScrollingEnabled = false
         )
+
+        btnTryAgain.setOnClickListener { loadTrailers() }
     }
 }

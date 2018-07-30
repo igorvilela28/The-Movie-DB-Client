@@ -28,7 +28,7 @@ class MovieDetailViewModel
     private val _movieTrailers = MutableLiveData<List<MovieVideo>>()
     val movieTrailers: LiveData<List<MovieVideo>> = _movieTrailers
 
-    suspend fun getMovieTrailers(movieId: Int) {
+    suspend fun loadMovieTrailers(movieId: Int) {
 
         doWorkWithProgress {
 
