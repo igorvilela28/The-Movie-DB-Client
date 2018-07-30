@@ -11,7 +11,7 @@ import com.igorvd.baseproject.R
 import com.igorvd.baseproject.domain.movies.entities.Movie
 import com.igorvd.baseproject.utils.extensions.content
 import com.igorvd.baseproject.utils.extensions.loadImageFromUrl
-import kotlinx.android.synthetic.main.item_progress.view.*
+import kotlinx.android.synthetic.main.footer_progress.view.*
 
 import kotlinx.android.synthetic.main.row_movie.view.*
 
@@ -51,7 +51,7 @@ class MoviesAdapter(
         } else {
 
             val itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_progress, parent, false)
+                    .inflate(R.layout.footer_progress, parent, false)
 
             MyFooterViewHolder(itemView)
         }

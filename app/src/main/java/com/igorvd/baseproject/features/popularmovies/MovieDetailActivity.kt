@@ -61,40 +61,6 @@ class MovieDetailActivity : AppCompatActivity() {
 
     }
 
-    private fun setupObservers() {
-
-        viewModel.observe(this, ::showProgress, ::hideProgress, ::showError)
-
-
-        viewModel.movieTrailers.observeNotNull(this) { videos ->
-
-            adapter.submitList(videos)
-
-            tvError.isVisible = videos.isEmpty()
-            if (videos.isEmpty()) {
-                tvError.content = getString(R.string.empty_content)
-            }
-        }
-    }
-
-    private fun showProgress() {
-
-        tvError.isVisible = false
-        btnTryAgain.isVisible = false
-        progressBar.isVisible = true
-
-    }
-
-    private fun hideProgress() {
-        progressBar.isVisible = false
-    }
-
-    private fun showError(stringRes: Int) {
-        tvError.isVisible = true
-        tvError.content = getString(stringRes)
-        btnTryAgain.isVisible = true
-    }
-
     private fun loadTrailers() {
 
         launchUI {
@@ -128,5 +94,39 @@ class MovieDetailActivity : AppCompatActivity() {
         )
 
         btnTryAgain.setOnClickListener { loadTrailers() }
+    }
+
+    private fun setupObservers() {
+
+        viewModel.observe(this, ::showProgress, ::hideProgress, ::showError)
+
+
+        viewModel.movieTrailers.observeNotNull(this) { videos ->
+
+            adapter.submitList(videos)
+
+            tvError.isVisible = videos.isEmpty()
+            if (videos.isEmpty()) {
+                tvError.content = getString(R.string.empty_content)
+            }
+        }
+    }
+
+    private fun showProgress() {
+
+        tvError.isVisible = false
+        btnTryAgain.isVisible = false
+        progressBar.isVisible = true
+
+    }
+
+    private fun hideProgress() {
+        progressBar.isVisible = false
+    }
+
+    private fun showError(stringRes: Int) {
+        btnTryAgain.isVisible = true
+        tvError.isVisible = true
+        tvError.content = getString(stringRes)
     }
 }
