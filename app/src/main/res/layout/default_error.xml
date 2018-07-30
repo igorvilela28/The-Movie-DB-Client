@@ -1,42 +1,58 @@
-<RelativeLayout
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/errorContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/margin_padding_small"
+    >
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="@android:style/Widget.Holo.ProgressBar"
-        tools:visibility="visible"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:id="@+id/btnTryAgain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center_horizontal|center_vertical"
         android:layout_centerInParent="true"
-        android:text="@string/try_again"
-        />
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/tvError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="@string/error_fail_connection"
         android:layout_above="@+id/btnTryAgain"
-        android:gravity="center"
-        tools:visibility="visible"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginStart="@dimen/margin_padding_small"
-        android:layout_marginEnd="@dimen/margin_padding_small"
         android:layout_gravity="center_horizontal|center_vertical"
-        />
-</RelativeLayout>
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btnTryAgain"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/error_fail_connection"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btnTryAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:text="@string/try_again"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/tvError"
+        tools:visibility="visible" />
+
+
+</android.support.constraint.ConstraintLayout>
