@@ -2,6 +2,7 @@ package com.igorvd.baseproject.domain.movies.repository
 
 import com.igorvd.baseproject.domain.movies.MovieSortBy
 import com.igorvd.baseproject.domain.movies.entities.Movie
+import com.igorvd.baseproject.domain.movies.entities.MovieVideo
 
 /**
  * @author Igor Vilela
@@ -14,5 +15,7 @@ interface MovieRepository {
      *
      */
     suspend fun getMovies(page: Int, sortBy: MovieSortBy): List<Movie>
+
+    suspend fun getMovieTrailers(movieId: Int): List<MovieVideo>
 
 }

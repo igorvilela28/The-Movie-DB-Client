@@ -7,11 +7,11 @@ import com.igorvd.baseproject.domain.exceptions.MyIOException
 import com.igorvd.baseproject.domain.exceptions.MyServerErrorException
 import com.igorvd.baseproject.domain.movies.MovieSortBy
 import com.igorvd.baseproject.domain.movies.entities.Movie
+import com.igorvd.baseproject.domain.movies.entities.MovieVideo
 import com.igorvd.baseproject.domain.movies.repository.MovieRepository
 import com.igorvd.baseproject.domain.utils.extensions.asyncIO
-import com.igorvd.baseproject.domain.utils.extensions.withIOContext
-import kotlinx.coroutines.experimental.async
-import timber.log.Timber
+import kotlinx.coroutines.experimental.Unconfined
+import kotlinx.coroutines.experimental.withContext
 import java.util.*
 import javax.inject.Inject
 
@@ -27,6 +27,7 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
     private val requestConfiguration = SynchronousRequestManagerImpl<Configuration>()
     private val requestGenres = SynchronousRequestManagerImpl<GenreResult>()
     private val requestMovies = SynchronousRequestManagerImpl<MovieResult>()
+    private val requestVideos = SynchronousRequestManagerImpl<VideoResult>()
 
 
     override suspend fun getMovies(page: Int, sortBy: MovieSortBy): List<Movie> {
@@ -53,10 +54,22 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
         }
     }
 
+    override suspend fun getMovieTrailers(movieId: Int): List<MovieVideo> {
+
+        val videoResult = withContext(Unconfined) {
+            val call = movieDbApi.getMovieVideos(movieId)
+            requestVideos.getResult(call)
+        }
+
+        val trailers = videoResult.videos.filter { it.type == "Trailer" }.map { it.toMovieVideo(movieId) }
+        return trailers
+
+    }
+
     /**
      * Transforms from [MovieSchema] to [Movie]
      */
-    fun MovieSchema.toMovie(configuration: Configuration, genresSchema: List<GenreSchema>): Movie {
+    private fun MovieSchema.toMovie(configuration: Configuration, genresSchema: List<GenreSchema>): Movie {
 
         val posterUrl: String = this.getPosterUrl(configuration)
         val backdropUrl: String = this.getBackdropUrl(configuration)
@@ -139,5 +152,14 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
      */
     private fun MovieSchema.getGenres(genresSchema: List<GenreSchema>): List<String> {
         return genreIds.map { id -> genresSchema.firstOrNull { it.id == id }?.name }.filterNotNull()
+    }
+
+    private fun VideoSchema.toMovieVideo(movieId: Int): MovieVideo {
+
+        return MovieVideo(
+            movieId = movieId,
+            name = name,
+            url = "https://www.youtube.com/watch?v=$key"
+        )
     }
 }

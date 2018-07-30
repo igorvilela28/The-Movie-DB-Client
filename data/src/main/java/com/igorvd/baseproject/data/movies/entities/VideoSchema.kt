@@ -10,10 +10,10 @@ import com.google.gson.annotations.SerializedName
 
 data class VideoResult(
     @SerializedName("id") val id: Int,
-    @SerializedName("videos") val videos: List<Video>
+    @SerializedName("videos") val videos: List<VideoSchema>
 )
 
-data class Video(
+data class VideoSchema(
     @SerializedName("id") val id: String,
     @SerializedName("iso_639_1") val iso6391: String,
     @SerializedName("iso_3166_1") val iso31661: String,
