@@ -12,8 +12,6 @@ import com.igorvd.baseproject.R
 import com.igorvd.baseproject.domain.utils.extensions.launchUI
 import com.igorvd.baseproject.utils.EndlessRecyclerViewScrollListener
 import com.igorvd.baseproject.utils.ViewModelFactory
-import com.igorvd.baseproject.utils.extensions.observeNotNull
-import com.igorvd.baseproject.utils.extensions.setup
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_popular_movies.*
 import kotlinx.android.synthetic.main.app_bar_layout.*
@@ -25,8 +23,7 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import com.igorvd.baseproject.domain.movies.MovieSortBy
 import com.igorvd.baseproject.utils.adapter.SpinnerDropdownAdapter
-import com.igorvd.baseproject.utils.extensions.getSelectedItemOrNull
-import com.igorvd.baseproject.utils.extensions.setSelectionListenerWithoutNotify
+import com.igorvd.baseproject.utils.extensions.*
 
 
 class PopularMoviesActivity : AppCompatActivity() {
@@ -145,8 +142,6 @@ class PopularMoviesActivity : AppCompatActivity() {
                     layoutManager = staggeredGridLayoutManager,
                     adapter = this@PopularMoviesActivity.adapter)
         }
-
-
     }
 
     private fun setupObservers() {
@@ -163,7 +158,7 @@ class PopularMoviesActivity : AppCompatActivity() {
 
         })
 
-        viewModel.observe(this, ::showProgress, ::hideProgress)
+        viewModel.observe(this, ::showProgress, ::hideProgress, ::showError)
     }
 
     private fun loadMovies(movieSortBy: MovieSortBy = viewModel.currentSortBy) {
@@ -205,24 +200,24 @@ class PopularMoviesActivity : AppCompatActivity() {
 
     private fun showProgress() {
 
-        btnTryAgain.visibility = View.GONE
-        tvError.visibility = View.GONE
+        btnTryAgain.isVisible = false
+        tvError.isVisible = false
 
         val size = viewModel.movies.value?.size ?: 0
         if (size > 0) {
             adapter.showFooterProgress()
         } else {
-            progressBar.visibility = View.VISIBLE
+            progressBar.isVisible = true
         }
     }
 
     private fun hideProgress() {
 
-        progressBar.visibility = View.GONE
+        progressBar.isVisible = false
 
     }
 
-    private fun showError() {
+    private fun showError(stringRes: Int) {
 
         val size = viewModel.movies.value?.size ?: 0
         if (size > 0) {
@@ -231,8 +226,9 @@ class PopularMoviesActivity : AppCompatActivity() {
 
         } else {
 
-            btnTryAgain.visibility = View.VISIBLE
-            tvError.visibility = View.VISIBLE
+            btnTryAgain.isVisible = true
+            tvError.isVisible = true
+            tvError.content = getString(stringRes)
         }
 
     }

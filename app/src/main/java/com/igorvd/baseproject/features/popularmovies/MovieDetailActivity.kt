@@ -3,17 +3,20 @@ package com.igorvd.baseproject.features.popularmovies
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.igorvd.baseproject.R
 import com.igorvd.baseproject.domain.movies.entities.Movie
+import com.igorvd.baseproject.domain.utils.extensions.launchUI
 import com.igorvd.baseproject.domain.utils.extensions.toStringWithSeparator
 import com.igorvd.baseproject.utils.ViewModelFactory
-import com.igorvd.baseproject.utils.extensions.content
-import com.igorvd.baseproject.utils.extensions.extra
-import com.igorvd.baseproject.utils.extensions.loadImageFromUrl
+import com.igorvd.baseproject.utils.extensions.*
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie_detail.*
+import kotlinx.android.synthetic.main.activity_popular_movies.*
+import kotlinx.android.synthetic.main.default_error.*
+import kotlinx.android.synthetic.main.movie_trailers.*
 import java.util.*
 import javax.inject.Inject
 
@@ -23,9 +26,12 @@ class MovieDetailActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory)
-            .get(MovieDetailViewModel::class.java)
+        ViewModelProviders.of(this, viewModelFactory).get(MovieDetailViewModel::class.java)
     }
+
+    private val adapter = MovieVideosAdapter(
+        onItemClicked = { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.url))) }
+    )
 
     private val movie by extra<Movie>(EXTRA_MOVIE)
 
@@ -48,6 +54,54 @@ class MovieDetailActivity : AppCompatActivity() {
 
         setupToolbar()
         setupMovieData()
+        setupRv()
+        setupObservers()
+
+        if (viewModel.movieTrailers.value == null) {
+            getMovieVideos()
+        }
+
+    }
+
+    private fun setupObservers() {
+
+        viewModel.observe(this, ::showProgress, ::hideProgress, ::showError)
+
+
+        viewModel.movieTrailers.observeNotNull(this) { videos ->
+
+            adapter.submitList(videos)
+
+            tvError.isVisible = videos.isEmpty()
+            if (videos.isEmpty()) {
+                tvError.content = getString(R.string.empty_content)
+            }
+        }
+    }
+
+    private fun showProgress() {
+
+        tvError.isVisible = false
+        btnTryAgain.isVisible = false
+        progressBar.isVisible = true
+
+    }
+
+    private fun hideProgress() {
+        progressBar.isVisible = false
+    }
+
+    private fun showError(stringRes: Int) {
+        tvError.isVisible = true
+        tvError.content = getString(stringRes)
+        btnTryAgain.isVisible = true
+    }
+
+    private fun getMovieVideos() {
+
+        launchUI {
+            viewModel.getMovieTrailers(movie.id)
+        }
 
     }
 
@@ -65,5 +119,14 @@ class MovieDetailActivity : AppCompatActivity() {
         tvReleaseDate.content = movie.releaseDate
         tvOriginalLanguage.content = movie.originalLanguage
         tvVoteAverage.content = "${movie.voteAverage} / 10.0"
+    }
+
+    private fun setupRv() {
+
+        rvTrailers.setup(
+            context = this,
+            adapter = adapter,
+            isNestedScrollingEnabled = false
+        )
     }
 }
