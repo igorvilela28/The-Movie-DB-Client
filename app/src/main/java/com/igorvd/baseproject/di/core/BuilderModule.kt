@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Service
 import android.support.v4.app.Fragment
 import com.igorvd.baseproject.di.features.MovieModule
+import com.igorvd.baseproject.features.popularmovies.MovieDetailActivity
 import com.igorvd.baseproject.features.popularmovies.PopularMoviesActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -26,7 +27,12 @@ abstract class BuilderModule {
    @ContributesAndroidInjector(modules = arrayOf(
             MovieModule::class
     ))
-    abstract fun contributesModule(): PopularMoviesActivity
+    abstract fun contributesPopularMovies(): PopularMoviesActivity
+
+    @ContributesAndroidInjector(modules = arrayOf(
+        MovieModule::class
+    ))
+    abstract fun contributesMovieDetails(): MovieDetailActivity
 
     //endregion
 }

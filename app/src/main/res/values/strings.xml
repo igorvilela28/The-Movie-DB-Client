@@ -13,5 +13,8 @@
     <string name="error_loading_2">Clique para tentar novamente</string>
     <string name="empty_content">Sem conteúdo a ser mostrado</string>
 
+    <string name="genres">Gêneros</string>
+    <string name="overview">Resumo</string>
+
 
 </resources>

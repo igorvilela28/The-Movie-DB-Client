@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import com.igorvd.baseproject.data.movies.repository.MovieCloudRepository
 import com.igorvd.baseproject.di.core.ViewModelKey
 import com.igorvd.baseproject.domain.movies.repository.MovieRepository
+import com.igorvd.baseproject.features.popularmovies.MovieDetailViewModel
 import com.igorvd.baseproject.features.popularmovies.PopularMoviesViewModel
 import com.igorvd.baseproject.utils.ViewModelFactory
 import dagger.Binds
@@ -30,4 +31,8 @@ abstract class MovieModule {
     @ViewModelKey(PopularMoviesViewModel::class)
     abstract fun popularMoviesViewMod(viewModel: PopularMoviesViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieDetailViewModel::class)
+    abstract fun movieDetailViewModel(viewModel: MovieDetailViewModel): ViewModel
 }

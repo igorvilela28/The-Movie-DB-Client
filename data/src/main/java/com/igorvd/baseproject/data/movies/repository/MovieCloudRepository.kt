@@ -12,6 +12,7 @@ import com.igorvd.baseproject.domain.utils.extensions.asyncIO
 import com.igorvd.baseproject.domain.utils.extensions.withIOContext
 import kotlinx.coroutines.experimental.async
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -69,7 +70,7 @@ class MovieCloudRepository @Inject constructor(private val movieDbApi: MovieDbAp
                 title = title,
                 popularity = popularity,
                 posterUrl = posterUrl,
-                originalLanguage = originalLanguage,
+                originalLanguage = Locale(originalLanguage).displayLanguage.capitalize(),
                 originalTitle = originalTitle,
                 genres = genres,
                 backdropUrl = backdropUrl,

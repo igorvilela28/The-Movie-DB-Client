@@ -23,7 +23,8 @@ interface MovieDbApi {
     @GET("discover/movie")
     fun getPopularMovies(
             @Query("page") page: Int,
-            @Query("sort_by") sortBy: String = "popularity.desc"
+            @Query("sort_by") sortBy: String = "popularity.desc",
+            @Query("include_video") includeVideo: Boolean = true
     ): Call<MovieResult>
 
 
