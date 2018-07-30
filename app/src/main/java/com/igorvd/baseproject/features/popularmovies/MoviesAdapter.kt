@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.igorvd.baseproject.R
 import com.igorvd.baseproject.domain.movies.entities.Movie
 import com.igorvd.baseproject.utils.extensions.content
+import com.igorvd.baseproject.utils.extensions.isVisible
 import com.igorvd.baseproject.utils.extensions.loadImageFromUrl
 import kotlinx.android.synthetic.main.footer_progress.view.*
 
@@ -108,22 +109,19 @@ class MoviesAdapter(
 
     private fun bindFooterViewHolder(holder: MyFooterViewHolder) {
 
-        val visibility = if(hasFooter) View.VISIBLE else View.GONE
-        holder.itemView.progressRoot.visibility = visibility
+        holder.itemView.progressRoot.isVisible = hasFooter
 
         if(currentFootType == FooterType.TYPE_LOADING) {
 
-            holder.itemView.itemProgressLLRetry.visibility = View.GONE
-            holder.itemView.itemprogressIvRetryIcon.visibility = View.GONE
-            holder.itemView.itemProgressBar.visibility = View.VISIBLE
+            holder.itemView.groupError.isVisible = false
+            holder.itemView.itemProgressBar.isVisible = true
 
             holder.itemView.progressRoot.setOnClickListener(null)
 
         } else if (currentFootType == FooterType.TYPE_ERROR) {
 
-            holder.itemView.itemProgressBar.visibility = View.GONE
-            holder.itemView.itemProgressLLRetry.visibility = View.VISIBLE
-            holder.itemView.itemprogressIvRetryIcon.visibility = View.VISIBLE
+            holder.itemView.groupError.isVisible = true
+            holder.itemView.itemProgressBar.isVisible = false
 
             holder.itemView.progressRoot.setOnClickListener {
                 onRetryClick()
