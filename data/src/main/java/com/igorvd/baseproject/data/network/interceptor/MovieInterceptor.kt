@@ -14,17 +14,13 @@ import javax.inject.Inject
 
 class MovieInterceptor @Inject constructor() : Interceptor {
 
-    val language = getLanguageCode()
-
     override fun intercept(chain: Interceptor.Chain): Response {
 
         val original = chain.request()
         val originalHttpUrl = original.url()
         val url = originalHttpUrl.newBuilder()
                 .addQueryParameter("api_key", BuildConfig.ApiKey)
-/*
-                .addQueryParameter("language", language)
-*/
+                .addQueryParameter("language", "pt-BR")
                 .build()
         val request = original.newBuilder().url(url).build()
 
