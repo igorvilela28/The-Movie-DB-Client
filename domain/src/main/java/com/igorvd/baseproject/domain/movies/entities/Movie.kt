@@ -1,5 +1,9 @@
 package com.igorvd.baseproject.domain.movies.entities
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Movie(
      val voteCount: Int,
      val id: Int,
@@ -15,4 +19,4 @@ data class Movie(
      val adult: Boolean,
      val overview: String,
      val releaseDate: String
-)
+) : Parcelable

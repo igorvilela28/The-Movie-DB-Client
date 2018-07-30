@@ -13,9 +13,9 @@ import javax.xml.parsers.SAXParserFactory
  */
 
 
-fun List<String>?.toStringWithSeparator(separator: String = ",") : String? {
+fun List<String>?.toStringWithSeparator(separator: String = ",") : String {
 
-    if (this == null) return null
+    if (this == null) return ""
 
     var valuesString = fold("", { total, value ->
         total + value + separator

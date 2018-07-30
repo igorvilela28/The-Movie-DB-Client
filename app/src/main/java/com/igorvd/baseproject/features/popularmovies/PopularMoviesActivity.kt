@@ -1,6 +1,5 @@
 package com.igorvd.baseproject.features.popularmovies
 
-import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
 import android.content.res.Configuration
 import android.support.v7.app.AppCompatActivity
@@ -16,7 +15,7 @@ import com.igorvd.baseproject.utils.ViewModelFactory
 import com.igorvd.baseproject.utils.extensions.observeNotNull
 import com.igorvd.baseproject.utils.extensions.setup
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_popular_movies.*
 import kotlinx.android.synthetic.main.app_bar_layout.*
 import kotlinx.android.synthetic.main.default_error.*
 import timber.log.Timber
@@ -45,7 +44,10 @@ class PopularMoviesActivity : AppCompatActivity() {
 
     private val adapter by lazy {
         MoviesAdapter(
-            onItemClicked = {},
+            onItemClicked = { movie ->
+                val it = MovieDetailActivity.newIntent(this, movie)
+                startActivity(it)
+            },
             onRetryClick = { loadMovies() }
         )
     }
@@ -78,7 +80,7 @@ class PopularMoviesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_popular_movies)
 
         savedInstanceState?.let {
             restoreInstance(it)

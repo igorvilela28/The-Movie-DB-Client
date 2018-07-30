@@ -99,7 +99,7 @@ class MoviesAdapter(
         val movie = movies[position]
         with(holder.itemView) {
             tvTitle.content = movie.title
-            ivPoster.loadImageFromUrl(context, movie.posterUrl)
+            ivPoster.loadImageFromUrl(context, movie.posterUrl, R.drawable.placeholder)
             setOnClickListener {
                 onItemClicked(movie)
             }
