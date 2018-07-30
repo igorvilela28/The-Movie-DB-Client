@@ -4,8 +4,8 @@ import android.app.Activity
 import android.app.Service
 import android.support.v4.app.Fragment
 import com.igorvd.baseproject.di.features.MovieModule
-import com.igorvd.baseproject.features.popularmovies.MovieDetailActivity
-import com.igorvd.baseproject.features.popularmovies.PopularMoviesActivity
+import com.igorvd.baseproject.features.popularmovies.detail.MovieDetailActivity
+import com.igorvd.baseproject.features.popularmovies.listmovies.PopularMoviesActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

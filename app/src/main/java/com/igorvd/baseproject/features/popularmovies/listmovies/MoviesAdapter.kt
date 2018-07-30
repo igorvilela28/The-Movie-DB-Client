@@ -1,4 +1,4 @@
-package com.igorvd.baseproject.features.popularmovies
+package com.igorvd.baseproject.features.popularmovies.listmovies
 
 import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil
@@ -26,7 +26,8 @@ class MoviesAdapter(
     inner class MyFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     //constants for footer types
-    private var currentFootType = FooterType.TYPE_LOADING
+    private var currentFootType =
+        FooterType.TYPE_LOADING
 
     //view types
     private val ITEMS = 0

@@ -1,4 +1,4 @@
-package com.igorvd.baseproject.features.popularmovies
+package com.igorvd.baseproject.features.popularmovies.listmovies
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.res.Configuration
@@ -14,7 +14,6 @@ import com.igorvd.baseproject.utils.EndlessRecyclerViewScrollListener
 import com.igorvd.baseproject.utils.ViewModelFactory
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_popular_movies.*
-import kotlinx.android.synthetic.main.app_bar_layout.*
 import kotlinx.android.synthetic.main.default_error.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,8 +21,10 @@ import android.view.Menu
 import android.widget.AdapterView
 import android.widget.Spinner
 import com.igorvd.baseproject.domain.movies.MovieSortBy
+import com.igorvd.baseproject.features.popularmovies.detail.MovieDetailActivity
 import com.igorvd.baseproject.utils.adapter.SpinnerDropdownAdapter
 import com.igorvd.baseproject.utils.extensions.*
+import kotlinx.android.synthetic.main.app_bar_layout.*
 
 
 class PopularMoviesActivity : AppCompatActivity() {
@@ -40,13 +41,14 @@ class PopularMoviesActivity : AppCompatActivity() {
     private var listState: Parcelable? = null
 
     private val adapter by lazy {
-        MoviesAdapter(
-            onItemClicked = { movie ->
-                val it = MovieDetailActivity.newIntent(this, movie)
-                startActivity(it)
-            },
-            onRetryClick = { loadMovies() }
-        )
+        MoviesAdapter(onItemClicked = { movie ->
+            val it =
+                MovieDetailActivity.newIntent(
+                    this,
+                    movie
+                )
+            startActivity(it)
+        }, onRetryClick = { loadMovies() })
     }
 
     private val spanCount by lazy {
@@ -155,9 +157,6 @@ class PopularMoviesActivity : AppCompatActivity() {
             }
 
             adapter.submitList(it)
-
-            Timber.d("url: ${it.firstOrNull()?.posterUrl}")
-
         })
 
         viewModel.observe(this, ::showProgress, ::hideProgress, ::showError)

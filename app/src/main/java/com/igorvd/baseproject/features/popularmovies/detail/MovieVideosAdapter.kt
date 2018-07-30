@@ -1,4 +1,4 @@
-package com.igorvd.baseproject.features.popularmovies
+package com.igorvd.baseproject.features.popularmovies.detail
 
 import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil

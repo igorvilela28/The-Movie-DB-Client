@@ -5,8 +5,8 @@ import android.arch.lifecycle.ViewModelProvider
 import com.igorvd.baseproject.data.movies.repository.MovieCloudRepository
 import com.igorvd.baseproject.di.core.ViewModelKey
 import com.igorvd.baseproject.domain.movies.repository.MovieRepository
-import com.igorvd.baseproject.features.popularmovies.MovieDetailViewModel
-import com.igorvd.baseproject.features.popularmovies.PopularMoviesViewModel
+import com.igorvd.baseproject.features.popularmovies.detail.MovieDetailViewModel
+import com.igorvd.baseproject.features.popularmovies.listmovies.PopularMoviesViewModel
 import com.igorvd.baseproject.utils.ViewModelFactory
 import dagger.Binds
 import dagger.Module

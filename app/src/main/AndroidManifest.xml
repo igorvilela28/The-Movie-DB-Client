@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".features.popularmovies.PopularMoviesActivity"
+            android:name=".features.popularmovies.listmovies.PopularMoviesActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,9 +27,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".features.popularmovies.MovieDetailActivity"
+            android:name=".features.popularmovies.detail.MovieDetailActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".features.popularmovies.PopularMoviesActivity"
+            android:parentActivityName=".features.popularmovies.listmovies.PopularMoviesActivity"
             />
     </application>
 

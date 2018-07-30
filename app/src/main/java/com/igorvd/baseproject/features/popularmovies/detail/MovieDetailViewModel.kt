@@ -1,4 +1,4 @@
-package com.igorvd.baseproject.features.popularmovies
+package com.igorvd.baseproject.features.popularmovies.detail
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData

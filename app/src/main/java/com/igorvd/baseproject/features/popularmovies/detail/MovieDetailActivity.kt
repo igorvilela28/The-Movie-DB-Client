@@ -1,4 +1,4 @@
-package com.igorvd.baseproject.features.popularmovies
+package com.igorvd.baseproject.features.popularmovies.detail
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -27,9 +27,10 @@ class MovieDetailActivity : AppCompatActivity() {
         ViewModelProviders.of(this, viewModelFactory).get(MovieDetailViewModel::class.java)
     }
 
-    private val adapter = MovieVideosAdapter(
-        onItemClicked = { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.url))) }
-    )
+    private val adapter =
+        MovieVideosAdapter(onItemClicked = {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.url)))
+        })
 
     private val movie by extra<Movie>(EXTRA_MOVIE)
 
@@ -44,6 +45,10 @@ class MovieDetailActivity : AppCompatActivity() {
             return it
         }
     }
+
+    //**************************************************************************
+    // region: LIFE CYCLE
+    //**************************************************************************
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -60,6 +65,12 @@ class MovieDetailActivity : AppCompatActivity() {
         }
 
     }
+
+    //endregion
+
+    //**************************************************************************
+    // region: INNER METHODS
+    //**************************************************************************
 
     private fun loadTrailers() {
 
@@ -129,4 +140,6 @@ class MovieDetailActivity : AppCompatActivity() {
         tvError.isVisible = true
         tvError.content = getString(stringRes)
     }
+
+    //endregion
 }
