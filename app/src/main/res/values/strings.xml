@@ -17,5 +17,8 @@
     <string name="overview">Resumo</string>
     <string name="trailers">Trailers</string>
 
+    <string name="popularity">Popularidade</string>
+    <string name="best_rating">Melhor avaliados</string>
+
 
 </resources>

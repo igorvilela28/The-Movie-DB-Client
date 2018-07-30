@@ -155,7 +155,6 @@ class PopularMoviesActivity : AppCompatActivity() {
             if(adapter.hasFooter) {
                 adapter.removeFooter()
             }
-
             adapter.submitList(it)
         })
 
@@ -168,14 +167,12 @@ class PopularMoviesActivity : AppCompatActivity() {
 
     private fun setupFilterSpinner(spinner: Spinner) {
 
-        //TODO: Res strings
-
         val adapter = SpinnerDropdownAdapter(mContext = this,
             items = MovieSortBy.values().toMutableList(),
             getText = { searchBy ->
                 when (searchBy) {
-                    MovieSortBy.POPULARITY -> "Popularidade"
-                    MovieSortBy.VOTE_AVERAGE -> "Melhor avaliados"
+                    MovieSortBy.POPULARITY -> getString(R.string.popularity)
+                    MovieSortBy.VOTE_AVERAGE -> getString(R.string.best_rating)
                 }
             })
 
