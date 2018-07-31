@@ -35,7 +35,10 @@
 
         <include
             android:id="@+id/errorContainer"
-            layout="@layout/default_error"/>
+            layout="@layout/default_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>

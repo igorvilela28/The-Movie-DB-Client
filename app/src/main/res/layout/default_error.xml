@@ -32,8 +32,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnTryAgain"
         android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/btnTryAgain"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,14 +46,15 @@
         android:id="@+id/btnTryAgain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="@dimen/margin_padding_small"
         android:text="@string/try_again"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toBottomOf="@+id/tvError"
+        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible" />
 
 
