@@ -4,7 +4,7 @@ apply from: 'buildsystem/dependencies.gradle'
 buildscript {
 
     ext.kotlinVersion = '1.2.51'
-    ext.kotlinCoroutinesVersion = '0.24.0'
+    ext.kotlinCoroutinesVersion = '0.23.4'
 
     repositories {
         google()

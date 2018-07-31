@@ -11,7 +11,7 @@ allprojects {
 
 ext {
     //Android
-    androidMinSdkVersion = 17
+    androidMinSdkVersion = 21
     androidTargetSdkVersion = 27
     androidCompileSdkVersion = 27
     androidApplicationId = 'com.igorvd.baseproject'
@@ -154,7 +154,6 @@ ext {
 
     appTestDependencies = [
             allTestDependencies.junit,
-            allTestDependencies.mockito,
             allTestDependencies.mockk,
             allTestDependencies.coroutinesCore,
             allTestDependencies.archCoreTesting
@@ -182,7 +181,6 @@ ext {
 
     domainTestDependencies = [
             allTestDependencies.junit,
-            allTestDependencies.mockito,
             allTestDependencies.mockk,
             allTestDependencies.coroutinesCore
 
@@ -215,7 +213,6 @@ ext {
 
     dataTestDependencies = [
             allTestDependencies.junit,
-            allTestDependencies.mockito,
             allTestDependencies.mockk,
             allTestDependencies.coroutinesCore,
             allTestDependencies.mockwebserver,
