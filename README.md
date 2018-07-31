@@ -10,6 +10,12 @@ O projeto foi desenvolvido utilizando a versão do Android Studio 3.1.3, Gradle 
 
 Observe que a partir da versão 3.0 do Android Studio, o suporte para Kotlin já estará incluso e você poderá ignorar a instalação do plugin.
 
+É necessário configurar sua [chave de api](https://www.themoviedb.org/documentation/api) para acesso ao `The Movie DB`. Para tal, adicione a seguinte propriedade no seu arquivo `gradle.properties`:
+
+```
+THE_MOVIE_DB_API_KEY=<sua chave de API>
+```
+
 ## Organização do projeto
 
 A arquitetura do projeto segue os conceitos da [Clean architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) e é utilizado o Model-View-View-Model (MVVM) para a camada de apresentação.
