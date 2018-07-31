@@ -31,6 +31,10 @@ O projeto está separado em módulos do gradle:
 - [Retrofit](http://square.github.io/retrofit/): para as chamadas REST.
 - [Timber](https://github.com/JakeWharton/timber): para logs
 
+Para testes unitários
+- [MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver) - Para mockar requisições para a API
+- [MockK](https://github.com/mockk/mockk) - Para mock de objetos
+
 ## Decisões de implementação
 
 A utilização do Kotlin foi decidida por ser uma alternativa para o desenvolvimento Android nativo, oficialmente adotada pela google e pela comunidade de desenvolvimento Android. 
