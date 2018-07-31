@@ -87,12 +87,46 @@ class MovieCloudRepositoryTest {
         assertEquals(listOf("Aventura", "Acao", "Thriller"), movie.genres)
         assertEquals("https://image.tmdb.org/t/p/w300/5qxePyMYDisLe8rJiBYX8HKEyv2.jpg", movie.backdropUrl)
         assertEquals(false, movie.adult)
-        assertEquals("Quando uma importante missao nao sai como o planejado, Ethan Hunt (Tom Cruise) salvao  mundo", movie.overview)
+        assertEquals("Quando uma importante missao nao sai como o planejado, Ethan Hunt (Tom Cruise) salva o  mundo", movie.overview)
         assertEquals("2018-07-25", movie.releaseDate)
 
         //endregion
 
     }
+
+    @Test
+    fun `load movie trailer`() = runBlocking {
+
+        //region: arrange
+
+        val moviesResponse = loadJsonFromResources(
+            javaClass.classLoader,
+            "MovieVideosResponse.json")
+        server.enqueue200Response(moviesResponse)
+
+        //endregion
+
+        //region: act
+
+        val trailers = movieCloudRepository.getMovieTrailers(1)
+
+        //endregion
+
+        //region: assert
+
+        assertTrue(trailers.isNotEmpty())
+
+        val trailer = trailers[0]
+
+        assertEquals(1, trailer.movieId)
+        assertEquals("Missao: Impossivel - Efeito Fallout  2018 - Trailer Dublado", trailer.name)
+        assertEquals("https://www.youtube.com/watch?v=O17-POymi38", trailer.url)
+
+        //endregion
+
+    }
+
+
 
 
 }
