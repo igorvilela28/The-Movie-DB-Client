@@ -5,6 +5,8 @@ import android.content.res.Configuration
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
@@ -86,7 +88,6 @@ class PopularMoviesActivity : AppCompatActivity() {
         }
 
         setupToolbar()
-
         setupRv()
         setupObservers()
 
@@ -113,7 +114,6 @@ class PopularMoviesActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.popular_movies_menu, menu)
         val spinner = menu.findItem(R.id.spinner).actionView as Spinner
         setupFilterSpinner(spinner)
-
         return true
     }
 
@@ -135,7 +135,6 @@ class PopularMoviesActivity : AppCompatActivity() {
     }
 
     private fun setupRv() {
-
         adapter.setHasStableIds(true)
         with(rvPosters) {
             addOnScrollListener(scrollListener)

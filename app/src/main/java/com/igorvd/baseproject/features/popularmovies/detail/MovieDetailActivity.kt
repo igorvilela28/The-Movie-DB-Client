@@ -100,9 +100,10 @@ class MovieDetailActivity : AppCompatActivity() {
 
         rvTrailers.setup(
             context = this,
-            adapter = adapter,
-            isNestedScrollingEnabled = false
+            adapter = adapter
         )
+
+        rvTrailers.isNestedScrollingEnabled = false
 
         btnTryAgain.setOnClickListener { loadTrailers() }
     }
