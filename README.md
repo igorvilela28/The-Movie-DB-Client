@@ -47,10 +47,7 @@ A utilização do Kotlin foi decidida por ser uma alternativa para o desenvolvim
 
 Além de ser menos verbosa que o Java, Kotlin nos oferece diversas ferramentas interessantes, como [null safety](https://kotlinlang.org/docs/reference/null-safety.html), [high order functions e lambdas](https://kotlinlang.org/docs/reference/lambdas.html), [delegate properties](https://kotlinlang.org/docs/reference/delegated-properties.html), [extensions](https://kotlinlang.org/docs/reference/extensions.html) e ainda em versão experimental [coroutines](https://github.com/Kotlin/kotlinx.coroutines).
 
-Programação assíncrona é uma realidade para o desenvolvimento Android. O fato de que utilizando coroutines podemos escrever trechos de código assíncronos sequencialmente me chamou bastante a atenção. Portanto, coroutines foram utilizadas como prova de conceito.
-
-De acordo com a [documentação](https://kotlinlang.org/docs/reference/coroutines.html) uma coroutine é uma computação que é capaz de suspender/resumir sua execução, sem bloquear uma thread, o que encaixa perfeitamente com o desenvolvimento Android, visto que precisamos executar certas operações fora da UI Thread (como chamadas de rede, acesso ao banco de dados local, etc). Além de possuir APIs simples e direta para paralelismo, cancelar tarefas, etc.''
-
+Programação assíncrona é uma das principais necessidadse para o desenvolvimento Android, visto que não podemos realizar operações demoradas e bloqueantes na `UI` thread. O fato de que utilizando coroutines podemos escrever trechos de código assíncronos sequencialmente me chamou bastante a atenção. Tornando assim o código mais limpo e legível.
 
 ## Trabalho futuro
 
