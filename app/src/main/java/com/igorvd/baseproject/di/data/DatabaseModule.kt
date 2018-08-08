@@ -14,14 +14,5 @@ import javax.inject.Singleton
 @Module
 class DatabaseModule {
 
-   /* @Singleton
-    @Provides
-    fun providesAdvancedReceptionDatabase(mApplication: GenesisApplication): AdvancedReceptionDatabase {
-
-        val db = Room.databaseBuilder(mApplication.applicationContext,
-                AdvancedReceptionDatabase::class.java, "database-genesis2").build()
-
-        return db
-    }*/
 
 }
