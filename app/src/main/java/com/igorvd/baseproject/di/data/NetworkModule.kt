@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 /**
  *
- * @author Jose Martins
+ * @author Igor Vilela
  * @since 09/01/2018
  */
 
