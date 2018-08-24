@@ -33,7 +33,7 @@ inline fun <reified T> Fragment.argument(key: String): Lazy<T> = kotlin.lazy {
  * da função [default]
  * Ex:
  * class Fragment : Fragment() {
- *     private val name by argument<String>("userName", { "prosegur" } )
+ *     private val name by argument<String>("userName", { "igorvd" } )
  * }
  */
 inline fun <reified T> Fragment.argument(key: String, crossinline default: () -> T): Lazy<T> = kotlin.lazy {
